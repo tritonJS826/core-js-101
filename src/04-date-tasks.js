@@ -19,8 +19,9 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromRfc2822(value) {
+  const date = new Date(value);
+  return date;
 }
 
 /**
@@ -34,8 +35,9 @@ function parseDataFromRfc2822(/* value */) {
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromIso8601(value) {
+  const date = new Date(value);
+  return date;
 }
 
 
@@ -53,8 +55,9 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  if (date.getYear() % 4 === 0 && date.getYear() % 1900 !== 0) return true;
+  return false;
 }
 
 
@@ -73,8 +76,20 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const t = endDate - startDate;
+  const ms = (t % 1000 === 0) ? '000' : t % 1000;
+  const s = Math.round(t / 1000) % 60 < 10
+    ? `0${Math.round(t / 1000) % 60}`
+    : `${Math.round(t / 1000) % 60}`;
+  const m = ((Math.round(t / 1000) % 3600) - s) / 60 < 10
+    ? `0${((Math.round(t / 1000) % 3600) - s) / 60}`
+    : `${((Math.round(t / 1000) % 3600) - s) / 60}`;
+  const h = (t - m * 60000 - s * 1000 - ms) / 3600000 < 10
+    ? `0${(t - m * 60000 - s * 1000 - ms) / 3600000}`
+    : `${(t - m * 60000 - s * 1000 - ms) / 3600000}`;
+  // const s = Math.round(t/1000)%60;
+  return `${h}:${m}:${s}.${ms}`;
 }
 
 
@@ -96,6 +111,12 @@ function timeSpanToString(/* startDate, endDate */) {
  */
 function angleBetweenClockHands(/* date */) {
   throw new Error('Not implemented');
+  // const h = date.getHours();
+  // const m = date.getMinutes();
+  // const angleHours = ((h % 12) * 5 * 2 * Math.PI) / 60; // перевожу в rad
+  // const angleMinutes = (m * 2 * Math.PI) / 60;
+  // console.log(date + ' !!H:' + date.getHours() + ' !!M:' + date.getMinutes());
+  // return Math.abs(angleMinutes - angleHours);
 }
 
 
