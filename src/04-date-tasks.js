@@ -109,14 +109,12 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
-  // const h = date.getHours();
-  // const m = date.getMinutes();
-  // const angleHours = ((h % 12) * 5 * 2 * Math.PI) / 60; // перевожу в rad
-  // const angleMinutes = (m * 2 * Math.PI) / 60;
-  // console.log(date + ' !!H:' + date.getHours() + ' !!M:' + date.getMinutes());
-  // return Math.abs(angleMinutes - angleHours);
+function angleBetweenClockHands(date) {
+  const h = date.getHours();
+  const m = date.getMinutes();
+
+  const angle = (180 - Math.abs(180 - Math.abs(m * 6 - (h * 30 + m * 0.5)))) % 90;
+  return angle;
 }
 
 
